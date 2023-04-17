@@ -43,7 +43,13 @@ app.post("/todos", (req, res) => {
     .then(() => res.redirect("/")) // 新增完成後導回首頁
     .catch((error) => console.log(error));
 });
-
+app.get("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  return Todo.findById(id)
+    .lean()
+    .then((todo) => res.render("detail", { todo }))
+    .catch((error) => console.log(error));
+});
 // 設定 port 3000
 app.get("/", (req, res) => {
   Todo.find() // 取出 Todo model 裡的所有資料
